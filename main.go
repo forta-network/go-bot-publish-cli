@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"forta-network/publish/cmd/publish"
-	publish_metadata "forta-network/publish/cmd/publish-metadata"
-	set_enable "forta-network/publish/cmd/set-enable"
 	"os"
 
-	generate_id "forta-network/publish/cmd/generate-id"
-	"forta-network/publish/cmd/initialize"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	generate_id "github.com/forta-network/go-bot-publish-cli/cmd/generate-id"
+	"github.com/forta-network/go-bot-publish-cli/cmd/initialize"
+	"github.com/forta-network/go-bot-publish-cli/cmd/publish"
+	publish_metadata "github.com/forta-network/go-bot-publish-cli/cmd/publish-metadata"
+	set_enable "github.com/forta-network/go-bot-publish-cli/cmd/set-enable"
 )
 
 const defaultIpfsUrl = "https://ipfs.forta.network"

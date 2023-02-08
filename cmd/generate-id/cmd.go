@@ -3,6 +3,7 @@ package generate_id
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/google/uuid"
 	"os"
@@ -22,7 +23,9 @@ func Run(ctx context.Context, cfg *Params) error {
 		}
 		id := crypto.Keccak256Hash([]byte(uuid.Must(uuid.NewUUID()).String())).Hex()
 		_, err = file.WriteString(id)
+		fmt.Println(id)
 		return err
 	}
+	fmt.Println("Bot ID already created in ./.settings/botId")
 	return nil
 }
