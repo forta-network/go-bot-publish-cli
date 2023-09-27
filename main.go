@@ -12,6 +12,7 @@ import (
 	"github.com/forta-network/go-bot-publish-cli/cmd/publish"
 	publish_metadata "github.com/forta-network/go-bot-publish-cli/cmd/publish-metadata"
 	set_enable "github.com/forta-network/go-bot-publish-cli/cmd/set-enable"
+	"github.com/forta-network/go-bot-publish-cli/cmd/transfer"
 )
 
 const defaultIpfsUrl = "https://ipfs.forta.network"
@@ -125,6 +126,9 @@ func main() {
 					&cli.StringFlag{
 						Name: "passphrase",
 					},
+					&cli.StringFlag{
+						Name: "gas-price",
+					},
 				},
 				Action: func(c *cli.Context) error {
 					return publish.Run(c.Context, &publish.Params{
@@ -133,6 +137,7 @@ func main() {
 						Passphrase:      c.String("passphrase"),
 						Manifest:        c.String("manifest"),
 						IPFSGatewayPath: c.String("ipfs-gateway"),
+						GasPrice:        c.String("gas-price"),
 					})
 				},
 			},
@@ -185,6 +190,33 @@ func main() {
 						KeyDirPath:  c.String("keydir"),
 						Passphrase:  c.String("passphrase"),
 						Enable:      false,
+					})
+				},
+			},
+			{
+				Name: "transfer",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  "env",
+						Value: "prod",
+					},
+					&cli.StringFlag{
+						Name:  "keydir",
+						Value: deployKeyPath(),
+					},
+					&cli.StringFlag{
+						Name: "passphrase",
+					},
+					&cli.StringFlag{
+						Name: "to",
+					},
+				},
+				Action: func(c *cli.Context) error {
+					return transfer.Run(c.Context, &transfer.Params{
+						Environment: c.String("env"),
+						KeyDirPath:  c.String("keydir"),
+						Passphrase:  c.String("passphrase"),
+						To:          c.String("to"),
 					})
 				},
 			},

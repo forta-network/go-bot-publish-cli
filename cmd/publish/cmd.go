@@ -19,6 +19,7 @@ type Params struct {
 	IPFSGatewayPath string
 	Environment     string
 	Manifest        string
+	GasPrice        string
 }
 
 func Run(ctx context.Context, cfg *Params) error {
@@ -45,7 +46,7 @@ func Run(ctx context.Context, cfg *Params) error {
 	chainID := big.NewInt(137)
 	if cfg.Environment == "dev" {
 		r, err = registry.NewClient(ctx, registry.ClientConfig{
-			JsonRpcUrl: "https://rpc-mumbai.matic.today",
+			JsonRpcUrl: "https://polygon-mumbai.g.alchemy.com/v2/L3olmOBjGxzURvCw08DWS7Y4G-S6glAE",
 			ENSAddress: "0x5f7c5bbBa72e1e1fae689120D76D2f334A390Ae9",
 			PrivateKey: k.PrivateKey,
 		})
@@ -75,6 +76,14 @@ func Run(ctx context.Context, cfg *Params) error {
 	opts, err := bind.NewKeyedTransactorWithChainID(k.PrivateKey, chainID)
 	if err != nil {
 		return err
+	}
+	if cfg.GasPrice != "" {
+		if len(cfg.GasPrice) > 3 {
+			panic("gas price is set probably way too high (should be in gwei)")
+		}
+		gasPrice := big.NewInt(0)
+		gasPrice.SetString(fmt.Sprintf("%s%s", cfg.GasPrice, "000000000"), 10)
+		opts.GasPrice = gasPrice
 	}
 
 	var chainIDs []*big.Int
